@@ -28,34 +28,34 @@ export const TINT_DESCRIPTIONS: Record<TintType, string> = {
 }
 
 export interface PricePoint {
-  regular: number  // the price shown always (no auto-discount)
-  web: number      // kept for compatibility — same as regular now
+  regular: number  // full in-store price (not shown)
+  web: number      // online promotional price (shown by default)
 }
 
 export const PRICES: Record<TintType, Record<VehicleType, PricePoint>> = {
   combo: {
-    sedan:   { regular: 215, web: 215 },
-    pickup:  { regular: 215, web: 215 },
-    midsuv:  { regular: 225, web: 225 },
-    fullsuv: { regular: 235, web: 235 },
+    sedan:   { regular: 215, web: 179 },
+    pickup:  { regular: 215, web: 179 },
+    midsuv:  { regular: 225, web: 189 },
+    fullsuv: { regular: 235, web: 199 },
   },
   h20: {
-    sedan:   { regular: 215, web: 215 },
-    pickup:  { regular: 215, web: 215 },
-    midsuv:  { regular: 225, web: 225 },
-    fullsuv: { regular: 235, web: 235 },
+    sedan:   { regular: 215, web: 179 },
+    pickup:  { regular: 215, web: 179 },
+    midsuv:  { regular: 225, web: 189 },
+    fullsuv: { regular: 235, web: 199 },
   },
   u5: {
-    sedan:   { regular: 225, web: 225 },
-    pickup:  { regular: 225, web: 225 },
-    midsuv:  { regular: 235, web: 235 },
-    fullsuv: { regular: 245, web: 245 },
+    sedan:   { regular: 225, web: 189 },
+    pickup:  { regular: 225, web: 189 },
+    midsuv:  { regular: 235, web: 199 },
+    fullsuv: { regular: 245, web: 209 },
   },
   g05: {
-    sedan:   { regular: 235, web: 235 },
-    pickup:  { regular: 235, web: 235 },
-    midsuv:  { regular: 245, web: 245 },
-    fullsuv: { regular: 255, web: 255 },
+    sedan:   { regular: 235, web: 199 },
+    pickup:  { regular: 235, web: 199 },
+    midsuv:  { regular: 245, web: 209 },
+    fullsuv: { regular: 255, web: 219 },
   },
 }
 
