@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase'
-import { generateBookingCode, dollarsToCents } from '@/lib/utils'
+import { generateBookingCode } from '@/lib/utils'
 import type { BookingFormData } from '@/lib/types'
 
 async function getWompiToken(): Promise<string> {
@@ -14,7 +14,7 @@ async function getWompiToken(): Promise<string> {
       audience: 'wompi_api',
     }),
   })
-  if (!res.ok) throw new Error(`Wompi auth failed: ${await res.text()}`)
+  if (!res.ok) throw new Error('Wompi auth failed: ' + await res.text())
   const data = await res.json()
   return data.access_token
 }
@@ -23,39 +23,58 @@ async function createWompiPaymentLink(params: {
   token: string
   bookingCode: string
   finalPrice: number
+  webhookUrl: string
   redirectUrl: string
+  productName: string
   description: string
 }): Promise<string> {
   const res = await fetch('https://api.wompi.sv/EnlacePago', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${params.token}`,
+      'Authorization': 'Bearer ' + params.token,
     },
     body: JSON.stringify({
-      NombreEnlace: params.bookingCode,
-      Monto: params.finalPrice,
-      Descripcion: params.description,
-      UrlRetorno: params.redirectUrl,
-      PermitirCuotas: false,
-      InactivarDespuestDePrimerUso: true,
+      identificadorEnlaceComercio: params.bookingCode,
+      monto: params.finalPrice,
+      nombreProducto: params.productName,
+      infoProducto: {
+        descripcionProducto: params.description,
+      },
+      formaPago: {
+        permitirTarjetaCreditoDebido: true,
+        permitirPagoConPuntoAgricola: false,
+        permitirPagoEnCuotasAgricola: false,
+        permitirPagoEnBitcoin: false,
+        permitePagoQuickPay: false,
+      },
+      configuracion: {
+        urlRedirect: params.redirectUrl,
+        urlWebhook: params.webhookUrl,
+        notificarTransaccionCliente: true,
+        esMontoEditable: false,
+        esCantidadEditable: false,
+      },
+      limitesDeUso: {
+        cantidadMaximaPagosExitosos: 1,
+        cantidadMaximaPagosFallidos: 3,
+      },
     }),
   })
-  if (!res.ok) throw new Error(`Wompi link failed: ${await res.text()}`)
+
+  if (!res.ok) throw new Error('Wompi link failed: ' + await res.text())
   const data = await res.json()
-  return data.Url || data.url || data.enlace || data.EnlacePago || data.urlEnlace
+  return data.urlEnlace
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body: BookingFormData = await req.json()
 
-    const required: (keyof BookingFormData)[] = [
-      'name','email','phone','make','model','vehicleType','tintType','date','hour','finalPrice',
-    ]
+    const required = ['name','email','phone','make','model','vehicleType','tintType','date','hour','finalPrice'] as (keyof BookingFormData)[]
     for (const field of required) {
       if (!body[field] && body[field] !== 0) {
-        return NextResponse.json({ error: `Campo requerido: ${field}` }, { status: 400 })
+        return NextResponse.json({ error: 'Campo requerido: ' + field }, { status: 400 })
       }
     }
 
@@ -94,25 +113,25 @@ export async function POST(req: NextRequest) {
     }
 
     const token = await getWompiToken()
-    const redirectUrl = `${appUrl}/confirm?booking=${booking.id}`
-    const description = `V-KOOL ${body.tintType} - ${body.vehicleType} - ${body.make} ${body.model}`
 
     const wompiUrl = await createWompiPaymentLink({
       token,
       bookingCode,
       finalPrice: body.finalPrice,
-      redirectUrl,
-      description,
+      redirectUrl: appUrl + '/confirm?booking=' + booking.id,
+      webhookUrl: appUrl + '/api/webhooks/wompi',
+      productName: 'V-KOOL ' + body.tintType.toUpperCase(),
+      description: 'Instalacion ' + body.tintType + ' para ' + body.make + ' ' + body.model + ' ' + body.year,
     })
 
-    if (!wompiUrl) throw new Error('No URL returned from Wompi')
+    if (!wompiUrl) throw new Error('Wompi no devolvio una URL de pago')
 
     return NextResponse.json({ success: true, bookingId: booking.id, bookingCode, wompiUrl })
 
   } catch (err) {
     console.error('Create booking error:', err)
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Error interno' },
+      { error: err instanceof Error ? err.message : 'Error interno del servidor' },
       { status: 500 }
     )
   }
