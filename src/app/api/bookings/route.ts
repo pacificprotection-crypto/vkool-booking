@@ -61,7 +61,6 @@ async function createWompiPaymentLink(params: {
       },
     }),
   })
-
   if (!res.ok) throw new Error('Wompi link failed: ' + await res.text())
   const data = await res.json()
   return data.urlEnlace
