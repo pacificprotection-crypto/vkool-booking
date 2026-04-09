@@ -5,12 +5,13 @@ export const dynamic = 'force-dynamic'
 export default async function ConfirmPage({
   searchParams,
 }: {
-  searchParams: { booking?: string }
+  searchParams: Promise<{ booking?: string }>
 }) {
-  const bookingId = searchParams.booking
+  const params = await searchParams
+  const bookingId = params.booking
 
   if (!bookingId) {
-    return <div style={{color:'white',padding:'40px'}}>NO BOOKING ID</div>
+    return <div style={{color:'white',padding:'40px',fontFamily:'monospace',background:'#111',minHeight:'100vh'}}>NO BOOKING ID — params: {JSON.stringify(params)}</div>
   }
 
   let booking = null
