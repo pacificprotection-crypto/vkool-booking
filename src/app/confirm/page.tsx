@@ -2,6 +2,8 @@ import { createServerClient } from '@/lib/supabase'
 import { TINT_LABELS, VEHICLE_LABELS, formatHour } from '@/lib/pricing'
 import type { VehicleType, TintType } from '@/lib/pricing'
 
+export const dynamic = 'force-dynamic'
+
 const MONTHS_ES = ['enero','febrero','marzo','abril','mayo','junio','julio',
   'agosto','septiembre','octubre','noviembre','diciembre']
 const DAYS_FULL = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado']
