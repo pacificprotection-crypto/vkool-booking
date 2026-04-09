@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --gold: #d4a843;
-  --gold-hover: #c49a38;
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #111111;
-  --bg-card: #1a1a1a;
-  --bg-input: #1a1a1a;
-  --border: #2a2a2a;
-  --border-hover: #3a3a3a;
-  --text-primary: #ffffff;
-  --text-secondary: #aaaaaa;
-  --text-muted: #555555;
+  --gold: #b8860b;
+  --gold-hover: #a07608;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f7f5;
+  --bg-card: #ffffff;
+  --bg-input: #ffffff;
+  --border: #e0ddd8;
+  --border-hover: #c8c4be;
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --text-muted: #999999;
   --green: #1D9E75;
   --red: #E24B4A;
 }
@@ -63,7 +63,7 @@ html, body {
 .site-logo {
   font-size: 20px;
   font-weight: 500;
-  color: #fff;
+  color: #1a1a1a;
   letter-spacing: 3px;
   text-decoration: none;
 }
@@ -111,14 +111,14 @@ html, body {
 .step-item.done .step-dot {
   border-color: var(--green);
   background: var(--green);
-  color: #fff;
+  color: #1a1a1a;
   font-size: 10px;
 }
 
 .step-line {
   flex: 1;
   height: 1px;
-  background: #222;
+  background: #e8e4de;
   margin: 0 6px;
 }
 
@@ -126,7 +126,7 @@ html, body {
 
 /* ---- Cards ---- */
 .card {
-  background: #111;
+  background: #f7f7f5;
   border: 0.5px solid var(--border);
   border-radius: 12px;
   padding: 20px;
@@ -134,7 +134,7 @@ html, body {
 }
 
 .card-dark {
-  background: #0d0d0d;
+  background: #f0ede8;
   border: 0.5px solid var(--border);
   border-radius: 10px;
   padding: 16px;
@@ -182,7 +182,7 @@ html, body {
 .field input:focus,
 .field select:focus { border-color: var(--gold); }
 
-.field select option { background: #1a1a1a; }
+.field select option { background: #ffffff; }
 
 .field.invalid input,
 .field.invalid select { border-color: var(--red); }
@@ -224,15 +224,15 @@ html, body {
   background: var(--bg-card);
 }
 
-.tint-card:hover { border-color: var(--gold); background: #1e1a10; }
-.tint-card.selected { border-color: var(--gold); background: #1e1a10; }
+.tint-card:hover { border-color: var(--gold); background: #fdf8ee; }
+.tint-card.selected { border-color: var(--gold); background: #fdf8ee; }
 
-.tint-name { font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 2px; }
+.tint-name { font-size: 14px; font-weight: 500; color: #1a1a1a; margin-bottom: 2px; }
 .tint-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.4; }
 .tint-price { font-size: 20px; font-weight: 500; color: var(--gold); }
 .tint-price-orig {
   font-size: 12px;
-  color: #444;
+  color: #999999;
   text-decoration: line-through;
   margin-left: 6px;
 }
@@ -259,7 +259,7 @@ html, body {
   margin-bottom: 14px;
 }
 
-.cal-month { font-size: 16px; font-weight: 500; color: #fff; }
+.cal-month { font-size: 16px; font-weight: 500; color: #1a1a1a; }
 
 .cal-btn {
   background: var(--bg-card);
@@ -284,7 +284,7 @@ html, body {
 
 .cal-dow {
   font-size: 11px;
-  color: #444;
+  color: #999999;
   text-align: center;
   padding: 4px 0;
   font-weight: 500;
@@ -311,13 +311,13 @@ html, body {
 .cal-day.available {
   background: var(--bg-card);
   border-color: var(--border);
-  color: #ccc;
+  color: #333333;
 }
 
 .cal-day.available:hover {
   border-color: var(--gold);
-  color: #fff;
-  background: #1e1a10;
+  color: #1a1a1a;
+  background: #fdf8ee;
 }
 
 .cal-day.selected {
@@ -329,14 +329,14 @@ html, body {
 .cal-day.full {
   background: var(--bg-card);
   border-color: var(--border);
-  color: #333;
+  color: #bbbbbb;
   cursor: not-allowed;
 }
 
 .cal-day.today { box-shadow: inset 0 0 0 1.5px #534AB7; }
 
 .day-num  { font-size: 13px; font-weight: 500; line-height: 1; }
-.day-slots { font-size: 9px; margin-top: 2px; color: #555; }
+.day-slots { font-size: 9px; margin-top: 2px; color: #888888; }
 .cal-day.selected .day-slots { color: rgba(10,10,10,0.55); }
 
 /* ---- Time slots ---- */
@@ -360,9 +360,9 @@ html, body {
 .time-slot.selected { background: var(--gold); border-color: var(--gold); }
 .time-slot.full, .time-slot.lunch { opacity: 0.3; cursor: not-allowed; }
 
-.ts-hour { font-size: 13px; font-weight: 500; color: #fff; }
+.ts-hour { font-size: 13px; font-weight: 500; color: #1a1a1a; }
 .time-slot.selected .ts-hour { color: #0a0a0a; }
-.ts-avail { font-size: 10px; color: #555; margin-top: 2px; }
+.ts-avail { font-size: 10px; color: #888888; margin-top: 2px; }
 .time-slot.selected .ts-avail { color: rgba(10,10,10,0.55); }
 
 /* ---- Price summary ---- */
@@ -374,10 +374,10 @@ html, body {
   margin-bottom: 8px;
 }
 
-.price-row span:last-child { color: #ccc; }
+.price-row span:last-child { color: #333333; }
 .price-row.saving span { color: var(--green); }
 
-.price-divider { height: 0.5px; background: #222; margin: 10px 0; }
+.price-divider { height: 0.5px; background: #e8e4de; margin: 10px 0; }
 
 .price-total {
   display: flex;
@@ -440,7 +440,7 @@ html, body {
 .order-pill-label { font-size: 13px; color: var(--text-secondary); }
 .order-pill-sub   { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 .order-pill-price { font-size: 18px; font-weight: 500; color: var(--gold); }
-.order-pill-orig  { font-size: 11px; color: #444; text-decoration: line-through; display: block; text-align: right; }
+.order-pill-orig  { font-size: 11px; color: #999999; text-decoration: line-through; display: block; text-align: right; }
 
 /* ---- Coupon ---- */
 .coupon-row { display: flex; gap: 8px; }
@@ -466,7 +466,7 @@ html, body {
 .coupon-msg.err { color: var(--red); }
 
 /* ---- Divider ---- */
-.divider { height: 0.5px; background: #1e1e1e; margin: 20px 0; }
+.divider { height: 0.5px; background: #eeebe6; margin: 20px 0; }
 
 /* ---- Success screen ---- */
 .success-icon-ring {
@@ -496,7 +496,7 @@ html, body {
   align-items: center;
   gap: 6px;
   font-size: 11px;
-  color: #444;
+  color: #999999;
   margin-top: 12px;
 }
 
@@ -506,7 +506,7 @@ html, body {
   align-items: center;
   gap: 4px;
   font-size: 11px;
-  color: #444;
+  color: #999999;
 }
 
 .wompi-dot {

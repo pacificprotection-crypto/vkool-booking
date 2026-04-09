@@ -300,8 +300,8 @@ export default function CotizarPage() {
                       <div className="tint-name">{TINT_LABELS[t]}</div>
                       <div className="tint-desc">{TINT_DESCRIPTIONS[t]}</div>
                       <div style={{display:'flex',alignItems:'baseline'}}>
-                        <span className="tint-price">{p ? `$${p.web}` : '—'}</span>
-                        {p && p.web < p.regular && <span className="tint-price-orig">${p.regular}</span>}
+                        <span className="tint-price">{p ? `$${p.regular}` : '—'}</span>
+                        
                       </div>
                     </div>
                   )
@@ -310,12 +310,9 @@ export default function CotizarPage() {
 
               {pricePoint && (
                 <div className="card-dark" style={{marginTop:'16px'}}>
-                  <div className="price-row"><span>Precio regular</span><span>${regularPrice}</span></div>
-                  <div className="price-row saving"><span>Descuento web</span><span>-${regularPrice - webPrice}</span></div>
-                  <div className="price-divider" />
-                  <div className="price-total">
-                    <span className="price-total-label">Total en línea</span>
-                    <span className="price-total-val">${webPrice}</span>
+                  <div className="price-total" style={{paddingTop:0}}>
+                    <span className="price-total-label">Precio</span>
+                    <span className="price-total-val">${regularPrice}</span>
                   </div>
                 </div>
               )}
@@ -336,8 +333,7 @@ export default function CotizarPage() {
                 <div className="order-pill-sub">{name}</div>
               </div>
               <div>
-                <span className="order-pill-orig">${regularPrice}</span>
-                <span className="order-pill-price">${webPrice}</span>
+                <span className="order-pill-price">${regularPrice}</span>
               </div>
             </div>
 
@@ -411,7 +407,6 @@ export default function CotizarPage() {
                 </div>
               </div>
               <div>
-                <span className="order-pill-orig">${regularPrice}</span>
                 <span className="order-pill-price">${finalPrice}</span>
               </div>
             </div>
@@ -439,14 +434,13 @@ export default function CotizarPage() {
 
               <div className="card-dark" style={{marginTop:'4px'}}>
                 <div className="price-row"><span>Servicio</span><span>{tintType ? TINT_LABELS[tintType as TintType] : ''}</span></div>
-                <div className="price-row"><span>Precio regular</span><span>${regularPrice}</span></div>
-                <div className="price-row saving"><span>Descuento web</span><span>-${regularPrice - webPrice}</span></div>
+                <div className="price-row"><span>Precio</span><span>${regularPrice}</span></div>
                 {couponResult?.valid && (
-                  <div className="price-row saving"><span>{couponResult.label}</span><span>-${couponResult.discountAmount}</span></div>
+                  <div className="price-row saving"><span>Descuento ({couponResult?.label})</span><span>-${couponResult?.discountAmount}</span></div>
                 )}
                 <div className="price-divider" />
                 <div className="price-total">
-                  <span className="price-total-label">Total a pagar</span>
+                  <span className="price-total-label">Total</span>
                   <span className="price-total-val">${finalPrice}</span>
                 </div>
               </div>

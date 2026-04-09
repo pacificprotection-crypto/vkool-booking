@@ -9,15 +9,15 @@ export type TintType = 'combo' | 'h20' | 'u5' | 'g05'
 export const VEHICLE_LABELS: Record<VehicleType, string> = {
   sedan:   'Sedán',
   pickup:  'Pickup 4 puertas',
-  midsuv:  'SUV mediano',
-  fullsuv: 'SUV grande',
+  midsuv:  'Camioneta 2 filas',
+  fullsuv: 'Camioneta 3 filas',
 }
 
 export const TINT_LABELS: Record<TintType, string> = {
-  combo: 'Combinación (G05 + H20)',
-  h20:   'Full H20',
-  u5:    'U5',
-  g05:   'Full G05',
+  combo: 'Combinación 20% y 5%',
+  h20:   'Full 20%',
+  u5:    'U5%',
+  g05:   'Full 5%',
 }
 
 export const TINT_DESCRIPTIONS: Record<TintType, string> = {
@@ -28,34 +28,34 @@ export const TINT_DESCRIPTIONS: Record<TintType, string> = {
 }
 
 export interface PricePoint {
-  regular: number
-  web: number     // discounted online price (shown as default)
+  regular: number  // the price shown always (no auto-discount)
+  web: number      // kept for compatibility — same as regular now
 }
 
 export const PRICES: Record<TintType, Record<VehicleType, PricePoint>> = {
   combo: {
-    sedan:   { regular: 215, web: 179 },
-    pickup:  { regular: 215, web: 179 },
-    midsuv:  { regular: 225, web: 189 },
-    fullsuv: { regular: 235, web: 199 },
+    sedan:   { regular: 215, web: 215 },
+    pickup:  { regular: 215, web: 215 },
+    midsuv:  { regular: 225, web: 225 },
+    fullsuv: { regular: 235, web: 235 },
   },
   h20: {
-    sedan:   { regular: 215, web: 179 },
-    pickup:  { regular: 215, web: 179 },
-    midsuv:  { regular: 225, web: 189 },
-    fullsuv: { regular: 235, web: 199 },
+    sedan:   { regular: 215, web: 215 },
+    pickup:  { regular: 215, web: 215 },
+    midsuv:  { regular: 225, web: 225 },
+    fullsuv: { regular: 235, web: 235 },
   },
   u5: {
-    sedan:   { regular: 225, web: 189 },
-    pickup:  { regular: 225, web: 189 },
-    midsuv:  { regular: 235, web: 199 },
-    fullsuv: { regular: 245, web: 209 },
+    sedan:   { regular: 225, web: 225 },
+    pickup:  { regular: 225, web: 225 },
+    midsuv:  { regular: 235, web: 235 },
+    fullsuv: { regular: 245, web: 245 },
   },
   g05: {
-    sedan:   { regular: 235, web: 199 },
-    pickup:  { regular: 235, web: 199 },
-    midsuv:  { regular: 245, web: 209 },
-    fullsuv: { regular: 255, web: 219 },
+    sedan:   { regular: 235, web: 235 },
+    pickup:  { regular: 235, web: 235 },
+    midsuv:  { regular: 245, web: 245 },
+    fullsuv: { regular: 255, web: 255 },
   },
 }
 
