@@ -177,7 +177,9 @@ html, body {
   font-family: inherit;
 }
 
-.field input::placeholder { color: #3a3a3a; }
+.field input::placeholder { color: #bbbbbb; }
+.field select::placeholder { color: #bbbbbb; }
+.field textarea::placeholder { color: #bbbbbb; }
 
 .field input:focus,
 .field select:focus { border-color: var(--gold); }

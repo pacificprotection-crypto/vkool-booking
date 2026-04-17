@@ -216,9 +216,9 @@ export default function CotizarPage() {
 
   return (
     <div className="page-wrapper">
-      <header className="site-header" style={{maxWidth:'560px',width:'100%',background:'transparent',border:'none',marginBottom:'8px',padding:'20px 16px 0'}}>
-        <a href="https://www.vkoolsv.com" className="site-logo">V·KOOL</a>
-        <span style={{fontSize:'12px',color:'#555'}}>San Salvador</span>
+      <header className="site-header" style={{maxWidth:'560px',width:'100%',background:'#0a0a0a',border:'none',borderRadius:'12px',marginBottom:'8px',padding:'20px 16px 0'}}>
+        <a href="https://www.vkoolsv.com" style={{display:"flex",alignItems:"center"}}><img src="https://static.wixstatic.com/media/78b827_c1abfd50c9f9414c983db6e5158b88e1~mv2.png/v1/fill/w_317,h_89,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/LOGO%20V-KOOL%20BLANCO-01.png" alt="V-KOOL" style={{height:"36px",width:"auto"}} /></a>
+        <span style={{fontSize:'12px',color:'#aaa'}}>San Salvador</span>
       </header>
 
       <div className="form-container">
@@ -237,18 +237,18 @@ export default function CotizarPage() {
               <div className="row-2">
                 <div className={`field ${touched.name && !name ? 'invalid' : ''}`}>
                   <label>Nombre completo</label>
-                  <input value={name} onChange={e => setName(e.target.value)} onBlur={() => blur('name')} placeholder="Ej. Carlos Martínez" />
+                  <input value={name} onChange={e => setName(e.target.value)} onBlur={() => blur('name')} placeholder="Nombre completo" />
                   <span className="field-error">Requerido</span>
                 </div>
                 <div className={`field ${touched.phone && !phone ? 'invalid' : ''}`}>
                   <label>Teléfono</label>
-                  <input value={phone} onChange={e => setPhone(e.target.value)} onBlur={() => blur('phone')} placeholder="7000-0000" />
+                  <input value={phone} onChange={e => setPhone(e.target.value)} onBlur={() => blur('phone')} placeholder="Teléfono" />
                   <span className="field-error">Requerido</span>
                 </div>
               </div>
               <div className={`field ${touched.email && !emailValid ? 'invalid' : ''}`}>
                 <label>Correo electrónico</label>
-                <input type="email" value={email} onChange={e => setEmail(e.target.value)} onBlur={() => blur('email')} placeholder="tucorreo@ejemplo.com" />
+                <input type="email" value={email} onChange={e => setEmail(e.target.value)} onBlur={() => blur('email')} placeholder="Correo electrónico" />
                 <span className="field-error">Ingresa un correo válido</span>
               </div>
             </div>
@@ -258,17 +258,17 @@ export default function CotizarPage() {
               <div className="row-3">
                 <div className={`field ${touched.make && !make ? 'invalid' : ''}`}>
                   <label>Marca</label>
-                  <input value={make} onChange={e => setMake(e.target.value)} onBlur={() => blur('make')} placeholder="Toyota" />
+                  <input value={make} onChange={e => setMake(e.target.value)} onBlur={() => blur('make')} placeholder="Marca" />
                   <span className="field-error">Requerido</span>
                 </div>
                 <div className={`field ${touched.model && !model ? 'invalid' : ''}`}>
                   <label>Modelo</label>
-                  <input value={model} onChange={e => setModel(e.target.value)} onBlur={() => blur('model')} placeholder="Corolla" />
+                  <input value={model} onChange={e => setModel(e.target.value)} onBlur={() => blur('model')} placeholder="Modelo" />
                   <span className="field-error">Requerido</span>
                 </div>
                 <div className="field">
                   <label>Año</label>
-                  <input type="number" value={year} onChange={e => setYear(e.target.value)} placeholder="2022" min="1990" max="2026" />
+                  <input type="number" value={year} onChange={e => setYear(e.target.value)} placeholder="Año" min="1990" max="2026" />
                 </div>
               </div>
               <div className={`field ${touched.vehicleType && !vehicleType ? 'invalid' : ''}`}>
@@ -311,7 +311,7 @@ export default function CotizarPage() {
               {pricePoint && (
                 <div className="card-dark" style={{marginTop:'16px'}}>
                   <div className="price-total" style={{paddingTop:0}}>
-                    <span className="price-total-label">Precio especial</span>
+                    <span className="price-total-label">Precio</span>
                     <span className="price-total-val">${webPrice}</span>
                   </div>
                 </div>
@@ -418,7 +418,7 @@ export default function CotizarPage() {
                   <input
                     value={couponCode}
                     onChange={e => setCouponCode(e.target.value.toUpperCase())}
-                    placeholder="Ej. WEB10"
+                    placeholder="Código de descuento"
                     style={{textTransform:'uppercase'}}
                   />
                   <button className="coupon-btn" onClick={applyCoupon} disabled={couponLoading}>
@@ -434,7 +434,7 @@ export default function CotizarPage() {
 
               <div className="card-dark" style={{marginTop:'4px'}}>
                 <div className="price-row"><span>Servicio</span><span>{tintType ? TINT_LABELS[tintType as TintType] : ''}</span></div>
-                <div className="price-row"><span>Precio</span><span>${regularPrice}</span></div>
+                <div className="price-row"><span>Precio especial</span><span>${webPrice}</span></div>
                 {couponResult?.valid && (
                   <div className="price-row saving"><span>Descuento ({couponResult?.label})</span><span>-${couponResult?.discountAmount}</span></div>
                 )}
@@ -456,11 +456,11 @@ export default function CotizarPage() {
                 para ingresar los datos de tu tarjeta. Aceptamos Visa, Mastercard y American Express.
               </p>
               <div style={{display:'flex',gap:'8px'}}>
-                {['VISA','MC','AMEX'].map(b => (
+                {['VISA','MC'].map(b => (
                   <div key={b} style={{
                     background:'var(--bg-card)',border:'0.5px solid var(--border)',
                     borderRadius:'4px',padding:'4px 10px',fontSize:'11px',fontWeight:'600',
-                    color: b==='VISA'?'#1A6CE1':b==='MC'?'#E24B4A':'var(--green)'
+                    color: b==='VISA'?'#1A6CE1':'#E24B4A'
                   }}>{b}</div>
                 ))}
               </div>
