@@ -21,10 +21,10 @@ export const TINT_LABELS: Record<TintType, string> = {
 }
 
 export const TINT_DESCRIPTIONS: Record<TintType, string> = {
-  combo: 'Laterales y trasera G05 · Parabrisas H20',
-  h20:   'Todo el vehículo con H20 — máxima visibilidad',
-  u5:    'Laterales y trasera G05 · Parabrisas H20 — paquete completo',
-  g05:   'Todo el vehículo con G05 — mayor rechazo de calor',
+  combo: 'V-KOOL 20% en ambos parabrisas y V-KOOL 5% en laterales',
+  h20:   'Todo el vehículo con V-KOOL 20% para máxima claridad',
+  u5:    'Laterales y parabrisa trasero con V-KOOL 5% y parabrisa frontal con V-KOOL 20%',
+  g05:   'Todo el vehículo polarizado con V-KOOL 5% para mayor privacidad y rechazo de calor',
 }
 
 export interface PricePoint {
