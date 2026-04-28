@@ -286,7 +286,7 @@ export default function CotizarPage() {
             <div className="card">
               <div className="section-label">Selección de tint</div>
               <div className="tint-grid">
-                {(['combo','h20','u5','g05'] as TintType[]).map((t, i) => {
+                {(['combo','h20','u5','g05','test'] as TintType[]).map((t, i) => {
                   const badges = [
                     <span key="b" className="badge badge-popular">Más popular</span>,
                     <span key="b" className="badge badge-gold">Full claridad</span>,
