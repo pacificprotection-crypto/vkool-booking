@@ -4,7 +4,7 @@
 // ============================================================
 
 export type VehicleType = 'sedan' | 'pickup' | 'midsuv' | 'fullsuv'
-export type TintType = 'combo' | 'h20' | 'u5' | 'g05'
+export type TintType = 'combo' | 'h20' | 'u5' | 'g05' | 'test'
 
 export const VEHICLE_LABELS: Record<VehicleType, string> = {
   sedan:   'Sedán',
@@ -18,6 +18,7 @@ export const TINT_LABELS: Record<TintType, string> = {
   h20:   'Full 20%',
   u5:    'U5%',
   g05:   'Full 5%',
+  test:  '⚙ TEST - No usar',
 }
 
 export const TINT_DESCRIPTIONS: Record<TintType, string> = {
@@ -25,6 +26,7 @@ export const TINT_DESCRIPTIONS: Record<TintType, string> = {
   h20:   'Todo el vehículo con V-KOOL 20% para máxima claridad',
   u5:    'Laterales y parabrisa trasero con V-KOOL 5% y parabrisa frontal con V-KOOL 20%',
   g05:   'Todo el vehículo polarizado con V-KOOL 5% para mayor privacidad y rechazo de calor',
+  test:  'Opción de prueba - $0.10',
 }
 
 export interface PricePoint {
@@ -56,6 +58,12 @@ export const PRICES: Record<TintType, Record<VehicleType, PricePoint>> = {
     pickup:  { regular: 235, web: 199 },
     midsuv:  { regular: 245, web: 209 },
     fullsuv: { regular: 255, web: 219 },
+  },
+  test: {
+    sedan:   { regular: 0.10, web: 0.10 },
+    pickup:  { regular: 0.10, web: 0.10 },
+    midsuv:  { regular: 0.10, web: 0.10 },
+    fullsuv: { regular: 0.10, web: 0.10 },
   },
 }
 
