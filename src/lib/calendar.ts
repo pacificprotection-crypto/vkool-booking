@@ -84,8 +84,8 @@ export async function createCalendarEvent(params: {
     const calendar = await getCalendarClient()
     const { date, hour, customerName, vehicleInfo, tintType, bookingCode, phone } = params
 
-    const start = new Date(`${date}T${String(hour).padStart(2, '0')}:00:00`)
-    const end = new Date(start.getTime() + 2 * 60 * 60 * 1000) // 2 hr block
+    const start = new Date(`${date}T${String(hour).padStart(2, '0')}:00:00-06:00`)
+    const end = new Date(start.getTime() + 2 * 60 * 60 * 1000)
 
     const event = await calendar.events.insert({
       calendarId: params.calendarId,
