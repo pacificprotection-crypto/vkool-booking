@@ -453,7 +453,7 @@ export default function CotizarPage() {
               </div>
               <p style={{fontSize:'13px',color:'#555',lineHeight:'1.7',marginBottom:'12px'}}>
                 Al hacer clic en <strong style={{color:'#aaa'}}>Ir al pago</strong>, serás redirigido a la plataforma segura de Wompi
-                para ingresar los datos de tu tarjeta. Aceptamos Visa, Mastercard y American Express.
+                para ingresar los datos de tu tarjeta. Aceptamos Visa y Mastercard.
               </p>
               <div style={{display:'flex',gap:'8px'}}>
                 {['VISA','MC'].map(b => (
