@@ -14,9 +14,9 @@ export async function GET(req: NextRequest) {
 
     // Reject past dates
     const requested = new Date(date + 'T12:00:00')
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    if (requested < today) {
+    const todaySV = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/El_Salvador' }))
+    todaySV.setHours(0, 0, 0, 0)
+    if (requested < todaySV) {
       return NextResponse.json({ error: 'No se pueden reservar fechas pasadas' }, { status: 400 })
     }
 
