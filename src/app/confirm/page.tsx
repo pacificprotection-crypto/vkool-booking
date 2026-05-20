@@ -25,7 +25,6 @@ export default async function ConfirmPage({
   const params = await searchParams
   const bookingId = params.booking
   const transactionId = params.idTransaccion
-  const wompiMonto = params.monto
 
   if (!bookingId) {
     return <ErrorScreen message="No se encontró el ID de reserva." />
@@ -42,14 +41,12 @@ export default async function ConfirmPage({
     return <ErrorScreen message="No se encontró la reserva. Contacta a V-KOOL si ya realizaste el pago." />
   }
 
-  // If Wompi sent a transaction ID and booking is still pending — update it now
   if (transactionId && booking.status === 'pending') {
     await supabase
       .from('bookings')
       .update({ status: 'paid', wompi_transaction_id: transactionId })
       .eq('id', bookingId)
 
-    // Build confirmed booking object for emails/calendar
     const confirmedBooking: Booking = {
       id: booking.id,
       bookingCode: booking.booking_code,
@@ -74,7 +71,6 @@ export default async function ConfirmPage({
       createdAt: booking.created_at,
     }
 
-    // Create Google Calendar event
     const location = LOCATIONS.find(l => l.id === booking.location_id)
     if (location?.calendarId) {
       await createCalendarEvent({
@@ -89,13 +85,18 @@ export default async function ConfirmPage({
       })
     }
 
-    // Send confirmation emails
-    await Promise.allSettled([
+    const emailResults = await Promise.allSettled([
       sendCustomerConfirmation(confirmedBooking),
       sendCompanyNotification(confirmedBooking),
     ])
+    emailResults.forEach((result, i) => {
+      if (result.status === 'rejected') {
+        console.error('Email ' + i + ' failed:', result.reason)
+      } else {
+        console.log('Email ' + i + ' sent successfully')
+      }
+    })
 
-    // Mark as paid for display
     booking.status = 'paid'
     booking.wompi_transaction_id = transactionId
   }
@@ -174,7 +175,7 @@ export default async function ConfirmPage({
           {[
             { done: true,  title: isPaid ? 'Pago recibido' : 'Cita confirmada', sub: isPaid ? 'Procesado por Wompi' : 'Reserva registrada exitosamente' },
             { done: true,  title: 'Correo de confirmación enviado', sub: booking.email },
-            { done: false, title: 'Llega a la sucursal', sub: `${formatDateFull(booking.date)} · ${formatHour(booking.hour)} · Muestra tu código` },
+            { done: false, title: 'Llega a la sucursal', sub: formatDateFull(booking.date) + ' · ' + formatHour(booking.hour) + ' · Muestra tu código' },
             { done: false, title: 'Instalación completada', sub: '1 a 2 horas · Sala de espera disponible' },
           ].map((item, i, arr) => (
             <div key={i} style={{display:'flex',gap:'12px',padding:'10px 0',position:'relative'}}>
@@ -185,7 +186,7 @@ export default async function ConfirmPage({
                 width:'20px',height:'20px',borderRadius:'50%',flexShrink:0,marginTop:'2px',
                 display:'flex',alignItems:'center',justifyContent:'center',
                 background: item.done ? 'rgba(29,158,117,0.12)' : '#f7f7f5',
-                border: `1px solid ${item.done ? '#1D9E75' : '#e0ddd8'}`,
+                border: '1px solid ' + (item.done ? '#1D9E75' : '#e0ddd8'),
               }}>
                 {item.done && <div style={{width:'8px',height:'8px',borderRadius:'50%',background:'#1D9E75'}} />}
               </div>
