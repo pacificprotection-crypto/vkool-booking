@@ -1,7 +1,16 @@
-import { Resend } from 'resend'
+import nodemailer from 'nodemailer'
 import type { Booking } from './types'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Gmail SMTP transporter
+function getTransporter() {
+  return nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.GMAIL_USER!,
+      pass: process.env.GMAIL_APP_PASSWORD!,
+    },
+  })
+}
 
 function formatDate(dateStr: string): string {
   const days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado']
@@ -30,30 +39,22 @@ function customerEmailHtml(booking: Booking): string {
 <table width="100%" cellpadding="0" cellspacing="0">
   <tr><td align="center" style="padding:24px 16px">
     <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%">
-
-      <!-- Header -->
       <tr><td style="background:#0a0a0a;padding:24px;text-align:center;border-radius:8px 8px 0 0">
         <span style="font-size:22px;font-weight:500;color:#fff;letter-spacing:4px">V·KOOL</span>
       </td></tr>
       <tr><td style="height:3px;background:#d4a843"></td></tr>
-
-      <!-- Body -->
       <tr><td style="background:#ffffff;padding:32px 24px">
         <p style="font-size:16px;color:#1a1a1a;margin:0 0 8px">Hola ${booking.name},</p>
         <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 24px">
           Tu reserva ha sido confirmada y tu pago procesado exitosamente.<br>
           Te esperamos el <strong style="color:#1a1a1a">${formatDate(booking.date)} a las ${formatHour(booking.hour)}</strong>.
         </p>
-
-        <!-- Booking code -->
         <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f2ee;border:1px solid #e8e4dc;border-radius:6px;margin-bottom:24px">
           <tr><td style="padding:20px;text-align:center">
             <p style="font-size:11px;color:#999;letter-spacing:2px;text-transform:uppercase;margin:0 0 8px">Código de reserva</p>
             <p style="font-size:28px;font-weight:700;color:#0a0a0a;letter-spacing:5px;font-family:'Courier New',monospace;margin:0">${booking.bookingCode}</p>
           </td></tr>
         </table>
-
-        <!-- Details -->
         <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #f0ede8;border-radius:6px;font-size:13px;margin-bottom:24px">
           ${[
             ['Servicio', `${booking.tintType} · ${booking.vehicleType}`],
@@ -70,29 +71,19 @@ function customerEmailHtml(booking: Booking): string {
             </tr>
           `).join('')}
         </table>
-
         <p style="font-size:12px;color:#999;line-height:1.7;margin:0 0 20px">
           Llega puntual y presenta tu código de reserva al técnico. Si necesitas cancelar o reagendar,
           contáctanos al PBX <strong>2297-8800</strong> con al menos 24 horas de anticipación.
         </p>
-
-        <table cellpadding="0" cellspacing="0" style="margin:0 auto 0">
-          <tr><td style="background:#d4a843;border-radius:4px;padding:12px 28px;text-align:center">
-            <a href="https://www.vkoolsv.com" style="font-size:14px;font-weight:600;color:#0a0a0a;text-decoration:none">Visitar V-KOOL</a>
-          </td></tr>
-        </table>
       </td></tr>
-
-      <!-- Footer -->
       <tr><td style="background:#f4f2ee;padding:20px 24px;text-align:center;border-radius:0 0 8px 8px;border:1px solid #e8e4dc;border-top:none">
         <p style="font-size:11px;color:#999;margin:0;line-height:1.8">
           V-KOOL El Salvador · Pacific Trading S.A. de C.V.<br>
           Final Calle La Mascota #986, San Salvador<br>
-          PBX: 2297-8800 · <a href="mailto:v-koolsansalvador@pacifictrading.net" style="color:#d4a843">v-koolsansalvador@pacifictrading.net</a><br><br>
+          PBX: 2297-8800<br><br>
           © ${new Date().getFullYear()} V-KOOL El Salvador. Todos los derechos reservados.
         </p>
       </td></tr>
-
     </table>
   </td></tr>
 </table>
@@ -145,8 +136,9 @@ function companyEmailHtml(booking: Booking): string {
 // ---- Public send functions ----
 
 export async function sendCustomerConfirmation(booking: Booking) {
-  return resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL!,
+  const transporter = getTransporter()
+  return transporter.sendMail({
+    from: `"V-KOOL El Salvador" <${process.env.GMAIL_USER}>`,
     to: booking.email,
     subject: `Reserva confirmada — V-KOOL ${booking.bookingCode}`,
     html: customerEmailHtml(booking),
@@ -154,8 +146,9 @@ export async function sendCustomerConfirmation(booking: Booking) {
 }
 
 export async function sendCompanyNotification(booking: Booking) {
-  return resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL!,
+  const transporter = getTransporter()
+  return transporter.sendMail({
+    from: `"V-KOOL Reservas" <${process.env.GMAIL_USER}>`,
     to: process.env.COMPANY_EMAIL!,
     subject: `[Nueva reserva] ${booking.bookingCode} — ${booking.name} · ${formatDate(booking.date)} ${formatHour(booking.hour)}`,
     html: companyEmailHtml(booking),
